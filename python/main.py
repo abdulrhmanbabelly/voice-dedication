@@ -12,7 +12,7 @@ import sys
 sys.stdout.reconfigure(encoding="utf-8")  # Ensure UTF-8 encoding
 
 # Load the same model
-model = Model("./vosk-model-ar-mgb2-0.4")
+model = Model("./models/vosk-model-ar-mgb2-0.4")
 recognizer = KaldiRecognizer(model, 16000)
 
 # Initialize microphone stream
