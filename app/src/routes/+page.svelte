@@ -68,19 +68,19 @@
   }
 
   #mic-icon {
-    width: 45px;
-    height: 45px;
+    width: 200px;
+    height: 200px;
     transition: 0.3s;
     cursor: pointer;
     border-radius: 50%;
-    padding: 10px;
+    padding: 30px;
     background: var(--primary-color);
     border: 1px solid var(--border-color);
   }
 
   #mic-status {
     font-weight: bold;
-    font-size: smaller;
+    font-size: 40px;
     text-align: center;
     color: var(--text-color);
   }
@@ -117,6 +117,6 @@
   #mic-btn {
     display: flex;
     justify-content: center;
-    margin-bottom: 5px;
+    margin-bottom: 20px;
   }
 </style>
