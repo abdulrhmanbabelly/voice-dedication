@@ -2,7 +2,6 @@
 this is a sidebar
 -->
 <script lang="ts">
-  import ModelsIcon from "./icons/ModelsIcon.svelte";
   import SettingsIcon from "./icons/SettingsIcon.svelte";
   import VoiceDedecationIcon from "./icons/VoiceDedecationIcon.svelte";
 </script>
@@ -10,11 +9,10 @@ this is a sidebar
 <aside>
   <a href="/dedicate">
     <button>
-      <VoiceDedecationIcon />Dedicate
+      <VoiceDedecationIcon />
     </button></a
   >
-  <a href="/models"> <button><ModelsIcon />Models</button></a>
-  <a href="/settings"><button><SettingsIcon /> Settings</button></a>
+  <a href="/settings"><button><SettingsIcon /></button></a>
 </aside>
 
 <style lang="scss">
@@ -23,19 +21,20 @@ this is a sidebar
   }
   aside {
     height: 100vh;
-    min-width: 200px;
+    min-width: 50px;
+    width: 5vw;
     background-color: var(--color-primary);
     box-shadow: 1px 1px 10px 1px #ccc;
     button {
       display: flex;
       align-items: center;
+      justify-content: center;
       gap: 10px;
       width: 100%;
-      padding: 20px;
+      padding: 20px 0;
       border: none;
       background-color: var(--color-primary);
       border-bottom: 0;
-      text-align: left;
       text-transform: uppercase;
       transition: all 0.3s;
       color: var(--color-text);

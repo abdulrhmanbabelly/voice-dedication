@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { translate } from "../../helpers/translate";
+
   let isListening = $state(false);
   const start = new Audio("assets/start.mp3"); // Replace with your audio file path
   const stop = new Audio("assets/stop.mp3"); // Replace with your audio file path
@@ -44,7 +46,9 @@
         />
       </svg>
     </button>
-    <div id="mic-status">{isListening ? "...يستمع" : "مطفئ"}</div>
+    <div id="mic-status">
+      {isListening ? translate("listening") : translate("not_listening")}
+    </div>
   </div>
 </div>
 
@@ -52,11 +56,9 @@
   @keyframes fadeInDown {
     0% {
       opacity: 0;
-      transform: translateY(-40px);
     }
     100% {
       opacity: 1;
-      transform: translateY(0);
     }
   }
   .animate__fadeIn {
@@ -64,6 +66,8 @@
     animation: fadeInDown 0.5s ease-in-out 1 forwards;
   }
   #mic-btn-wrapper {
+    min-width: 200px;
+
     width: 100%;
     height: 100%;
     display: flex;
