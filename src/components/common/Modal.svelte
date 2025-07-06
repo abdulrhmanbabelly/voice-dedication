@@ -1,5 +1,11 @@
 <script>
+  import { translate } from "../../helpers/translate";
+  import CloseIcon from "../icons/CloseIcon.svelte";
+  import PageHeading from "./PageHeading.svelte";
+
   export let show = false;
+  export let headingKey = "";
+  export let emitCloseIcon = false;
   let visible = false;
   let animatingOut = false;
 
@@ -26,6 +32,16 @@
     onanimationend={handleAnimationEnd}
   >
     <div class="dialog {animatingOut ? 'fade-out' : ''}">
+      <PageHeading>
+        <div
+          style="display: flex; align-items: center; justify-content: space-between; padding:10px"
+        >
+          {translate(headingKey)}
+          {#if !emitCloseIcon}
+            <CloseIcon handleToggleModal={() => (show = !show)} />
+          {/if}
+        </div>
+      </PageHeading>
       <slot></slot>
     </div>
   </div>
@@ -52,11 +68,11 @@
   }
 
   .dialog {
-    background: white;
+    background: var(--color-background);
     padding: 1.5rem;
     border-radius: 8px;
-    min-width: 500px;
-    max-width: 90%;
+    width: 100vw;
+    height: 100vh;
     animation: popFade 0.3s ease-out forwards;
     &.fade-out {
       animation: popOut 0.3s ease-in forwards;

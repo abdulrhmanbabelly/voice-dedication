@@ -9,7 +9,7 @@
     margin: 20px;
     padding: 20px;
     border-radius: 20px;
-    background-color: var(--color-warning);
-    color: var(--color-text);
+    border: 1px solid #ccc;
+    transition: 0.3s;
   }
 </style>

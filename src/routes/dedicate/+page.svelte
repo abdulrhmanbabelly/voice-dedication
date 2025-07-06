@@ -106,7 +106,6 @@
 
   #mic-icon:hover {
     transform: scale(1.1);
-    background-color: var(--color-accent-pink);
   }
 
   #mic-btn {

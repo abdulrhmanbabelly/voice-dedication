@@ -11,10 +11,7 @@ interface Config {
     dir: string;
   };
   model: string;
-  theme: {
-    primaryColor: string;
-    secondaryColor: string;
-  };
+  darkMode: boolean;
 }
 
 export const createConfig = () => {
@@ -24,10 +21,7 @@ export const createConfig = () => {
       dir: "ltr",
     },
     model: "",
-    theme: {
-      primaryColor: "#EEEEEE",
-      secondaryColor: "#EEEEEE",
-    },
+    darkMode: false,
   };
 
   exists("config.json", { baseDir: BaseDirectory.AppData }).then((isExist) => {
@@ -52,6 +46,10 @@ export const updateConfig = (config: Config) => {
   writeFile("config.json", ConfigData, {
     baseDir: BaseDirectory.AppData,
   }).then(() => console.log("###### UPDATED CONFIG ######"));
+
+  setTimeout(() => {
+    location.reload();
+  }, 200);
 };
 
 export const getConfig = (): Config => {

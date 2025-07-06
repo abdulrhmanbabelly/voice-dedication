@@ -6,8 +6,10 @@
   "permissions": [
     {
       "identifier": "http:default",
-      "allow": [{ "url": "https://alphacephei.com/vosk/models" }],
-      "deny": [{ "url": "https://private.tauri.app" }]
+      "allow": [
+        { "url": "https://alphacephei.com/vosk/models" },
+        { "url": "https://alphacephei.com/vosk/models/**" }
+      ]
     },
     "http:allow-fetch",
     "core:default",

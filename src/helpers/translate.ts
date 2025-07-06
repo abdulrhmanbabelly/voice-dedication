@@ -6,21 +6,25 @@ const translation: Record<string, Record<string, string>> = {
     listening: "...يستمع",
     not_listening: "مطفئ",
     interface_language: "لغة الواجهة",
-    theme: "النمط",
+    theme: "النمط المظلم",
     model: "النموذج",
+    none: "لا يوجد",
   },
   ["English"]: {
     settings: "settings",
-    listening: "listening...",
-    not_listening: "off",
+    listening: "Listening...",
+    not_listening: "Start voice typing",
     interface_language: "Interface Language",
-    theme: "Theme",
+    theme: "Dark mode",
     model: "Model",
+    none: "None",
   },
 };
 
 export const translate = (key: string): string => {
   const config = getConfig();
   const lang: string = config.language.value ?? "en";
+  if (!key) return "";
+  if (!translation[lang]) return "";
   return translation[lang][key] ?? "";
 };
