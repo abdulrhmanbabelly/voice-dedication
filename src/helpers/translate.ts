@@ -1,4 +1,5 @@
-import { getConfig } from "./config";
+import { getContext } from "svelte";
+import { config } from "./config.svelte";
 
 const translation: Record<string, Record<string, string>> = {
   ["عربي"]: {
@@ -22,9 +23,8 @@ const translation: Record<string, Record<string, string>> = {
 };
 
 export const translate = (key: string): string => {
-  const config = getConfig();
-  const lang: string = config.language.value ?? "en";
+  const lang: string = config.language.value;
   if (!key) return "";
   if (!translation[lang]) return "";
-  return translation[lang][key] ?? "";
+  return translation[lang][key] ?? key;
 };

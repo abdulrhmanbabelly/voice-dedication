@@ -8,26 +8,37 @@ import pyperclip
 import pyautogui
 import time
 import sys
+import os
 
 sys.stdout.reconfigure(encoding="utf-8")  # Ensure UTF-8 encoding
 
-# Load the same model
-model = Model("./models/vosk-model-ar-mgb2-0.4")
-recognizer = KaldiRecognizer(model, 16000)
 
 # Initialize microphone stream
 mic = pyaudio.PyAudio()
 stream = None
 running = False
 transcription_task = None
-BUFFER_SIZE = 4096
 
 
 async def handle_connection(websocket):
-    global stream, running, transcription_task
+    global stream, running, transcription_task, model, recognizer, buffer_size
 
     print("\n✅ Connected to frontend...\n")
     async for message in websocket:
+        try:
+            data = json.loads(message)
+        except json.JSONDecodeError:
+            data = message
+        if isinstance(data, dict) and data.get("type") == "init":
+            config = data
+            model_path = data.get("modelPath")
+            buffer_size = data.get("buffer_size")
+            print(f"📁 Loading model from: {model_path}")
+            print(f"📄 Contents: {os.listdir(model_path)}")
+
+            model = Model(model_path)
+            recognizer = KaldiRecognizer(model, 16000)
+
         if message == "start":
             if not running:
                 running = True
@@ -36,7 +47,7 @@ async def handle_connection(websocket):
                     channels=1,
                     rate=16000,
                     input=True,
-                    frames_per_buffer=BUFFER_SIZE,
+                    frames_per_buffer=buffer_size,
                 )
                 print("🔴 Recording started... Transcribing...")
                 transcription_task = threading.Thread(

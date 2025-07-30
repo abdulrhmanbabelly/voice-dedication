@@ -1,5 +1,8 @@
 <script lang="ts">
+  import { appDataDir } from "@tauri-apps/api/path";
+  import { getConfig } from "../../helpers/config.svelte";
   import { translate } from "../../helpers/translate";
+  const config = getConfig();
 
   let isListening = $state(false);
   const start = new Audio("assets/start.mp3"); // Replace with your audio file path
@@ -7,7 +10,20 @@
   // Establish WebSocket connection
   const ws = new WebSocket("ws://localhost:8765");
 
-  ws.onopen = () => console.log("Connected to WebSocket server");
+  ws.onopen = async () => {
+    console.log("Connected to WebSocket server");
+
+    const baseDir = await appDataDir();
+    const modelDir = `${baseDir}/models/extracted/${config.model}`;
+
+    const initMessage = {
+      type: "init",
+      modelName: config.model,
+      modelPath: modelDir,
+    };
+
+    ws.send(JSON.stringify(initMessage));
+  };
   ws.onmessage = (event) => console.log("Transcribed Text:", event.data);
   ws.onerror = (error) => console.error("WebSocket Error:", error);
   ws.onclose = () => console.log("WebSocket connection closed");

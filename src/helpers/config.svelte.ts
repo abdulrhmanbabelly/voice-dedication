@@ -5,15 +5,20 @@ import {
   writeFile,
 } from "@tauri-apps/plugin-fs";
 
+export interface Language {
+  value: string;
+  dir: string;
+}
 interface Config {
-  language: {
-    value: string;
-    dir: string;
-  };
+  language: Language;
   model: string;
   darkMode: boolean;
 }
 
+type UpdatedSetting =
+  | { model?: string }
+  | { language?: Language }
+  | { darkMode?: boolean };
 export const createConfig = () => {
   const defaultConfig: Config = {
     language: {
@@ -39,21 +44,25 @@ export const createConfig = () => {
   });
 };
 
-export const updateConfig = (config: Config) => {
-  localStorage.setItem("config", JSON.stringify(config));
-  let encoder = new TextEncoder();
-  let ConfigData = encoder.encode(JSON.stringify(config));
-  writeFile("config.json", ConfigData, {
-    baseDir: BaseDirectory.AppData,
-  }).then(() => console.log("###### UPDATED CONFIG ######"));
-
-  setTimeout(() => {
-    location.reload();
-  }, 200);
-};
-
 export const getConfig = (): Config => {
   const config = localStorage.getItem("config");
   if (config) return JSON.parse(config);
   else throw new Error("COULD NOT GET CONFIG");
 };
+
+export const config = $state(getConfig());
+export const updateConfig = (updatedSetting: UpdatedSetting) => {
+  const updatedConfig: Config = { ...config, ...updatedSetting };
+  config.darkMode = updatedConfig.darkMode;
+  config.language = updatedConfig.language;
+  config.model = updatedConfig.model;
+
+  localStorage.setItem("config", JSON.stringify(updatedConfig));
+  let encoder = new TextEncoder();
+  let ConfigData = encoder.encode(JSON.stringify(updatedConfig));
+  writeFile("config.json", ConfigData, {
+    baseDir: BaseDirectory.AppData,
+  }).then(() => console.log("###### UPDATED CONFIG ######"));
+};
+
+export const modelDialogOpen = $state({ isOpen: false });

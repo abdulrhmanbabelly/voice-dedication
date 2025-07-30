@@ -1,19 +1,16 @@
 <script>
+  // @ts-nocheck
+
   import Settings from "../components/settings/Settings.svelte";
   let { children } = $props();
-  import { createConfig, getConfig } from "../helpers/config";
+  import { config, createConfig, getConfig } from "../helpers/config.svelte";
   createConfig();
-  const config = getConfig();
-  if (config.language.dir === "rtl") document.body.style.direction = "rtl";
-  if (config.darkMode) {
-    const rootElement = document.documentElement;
-    rootElement.style.setProperty("--color-primary", "#888888");
-    rootElement.style.setProperty("--color-accent-pink", " #01161e");
-    rootElement.style.setProperty("--color-accent-lime", " #2d3142");
-    rootElement.style.setProperty("--color-warning", " #124559");
-    rootElement.style.setProperty("--color-background", "#121212");
-    rootElement.style.setProperty("--color-text", "#fffaff");
-  }
+  $effect(() => {
+    document.body.style.direction = config.language.dir;
+    document.body.dir = config.language.dir;
+    const link = document.getElementById("smui-theme");
+    link.href = config.darkMode ? "/smui-dark.css" : "/smui.css";
+  });
 </script>
 
 <div class="layout">
@@ -27,8 +24,6 @@
     display: flex;
     width: 100vw;
     height: 100vh;
-    background: var(--color-background);
-    color: var(--color-text);
   }
   :root {
     --color-primary: #2d3142; /* Deep navy (menu backgrounds) */

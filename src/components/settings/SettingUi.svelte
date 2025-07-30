@@ -1,15 +1,13 @@
 <script lang="ts">
   let { children } = $props();
+  import Card, { Content } from "@smui/card";
 </script>
 
-<div>{@render children?.()}</div>
+<Card variant="outlined" style="margin-bottom : 20px">
+  <Content>
+    {@render children?.()}
+  </Content>
+</Card>
 
 <style lang="scss">
-  div {
-    margin: 20px;
-    padding: 20px;
-    border-radius: 20px;
-    border: 1px solid #ccc;
-    transition: 0.3s;
-  }
 </style>
